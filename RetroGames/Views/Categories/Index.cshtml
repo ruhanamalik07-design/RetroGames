@@ -1,21 +1,27 @@
 ﻿@model IEnumerable<RetroGames.Models.Category>
+
 @{
     ViewData["Title"] = "Categories";
 }
-<h1>Pick a very cool category to browse our store</h1>
-<ul>
-@foreach (var category in Model)
-{
-    @*<li>@category.Name</li>*@
 
-    <li><a asp-controller="Categories" asp-action="Browse" 
-    asp-route-Categoryname="@category.Name">@category.Name</a></li>
+<h1>Pick a very cool category to browse our store</h1>
+
+@if (Model != null && Model.Any())
+{
+    <ul>
+        @foreach (var category in Model)
+        {
+            <li>
+                <a asp-controller="Categories"
+                   asp-action="Browse"
+                   asp-route-categoryName="@category.Name">
+                    @category.Name
+                </a>
+            </li>
+        }
+    </ul>
 }
-</ul>
-@*
-<ul>
-    <li><a asp-controller="Categories" asp-action="Browse" asp-route-Categoryname="Category 1">Category 1</a></li>
-    <li><a asp-controller="Categories" asp-action="Browse" asp-route-Categoryname="Category 2">Category 2</a></li>
-    <li><a asp-controller="Categories" asp-action="Browse" asp-route-Categoryname="Category 3">Category 3</a></li>
-</ul>
-*@
+else
+{
+    <p>No categories available.</p>
+}

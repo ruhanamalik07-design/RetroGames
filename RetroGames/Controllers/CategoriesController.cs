@@ -1,22 +1,37 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using RetroGames.Data;
 using RetroGames.Models;
 
 namespace RetroGames.Controllers
 {
     public class CategoriesController : Controller
     {
-        public IActionResult Index()
+        private readonly ApplicationDbContext _context;
+
+        public CategoriesController(ApplicationDbContext context)
         {
-            var categories = new List<Category>();
-            for(int i = 1; i <= 10; i++)
-            {
-                categories.Add(new Category { Id = i, Name = "Category " + i });
-            }
+            _context = context;
+        }
+
+        public async Task<IActionResult> Index()
+        {
+            var categories = await _context.Categories.ToListAsync();
             return View(categories);
         }
-        public IActionResult Browse(string categoryName) 
+
+        public async Task<IActionResult> Browse(string categoryName)
         {
-            ViewBag.CategoryName = categoryName;
+            var category = await _context.Categories
+                .FirstOrDefaultAsync(c => c.Name == categoryName);
+
+            if (category == null)
+            {
+                return NotFound();
+            }
+
+            ViewBag.CategoryName = category.Name;
             return View();
         }
     }

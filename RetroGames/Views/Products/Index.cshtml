@@ -1,0 +1,28 @@
+﻿@model IEnumerable<RetroGames.Models.Product>
+
+@{
+    ViewData["Title"] = "Products";
+}
+
+<h1>Our Games</h1>
+
+@if (Model.Any())
+{
+    <div class="row">
+        @foreach (var product in Model)
+        {
+            <div class="col-md-4 mb-3">
+                <div class="card p-3">
+                    <h4>@product.Name</h4>
+                    <p>@product.Description</p>
+                    <p>Category: @product.Category?.Name</p>
+                    <strong>$@product.Price</strong>
+                </div>
+            </div>
+        }
+    </div>
+}
+else
+{
+    <p>No products available.</p>
+}
