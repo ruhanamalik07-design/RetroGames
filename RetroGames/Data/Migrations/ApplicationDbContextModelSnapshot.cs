@@ -223,6 +223,29 @@ namespace RetroGames.Data.Migrations
                 b.ToTable("AspNetUserTokens", (string)null);
             });
 
+            modelBuilder.Entity("RetroGames.Models.Cart", b =>
+            {
+                b.Property<int>("Id")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnType("int");
+
+                SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                b.Property<int>("ProductId")
+                    .HasColumnType("int");
+
+                b.Property<Guid>("SessionKey")
+                    .HasColumnType("uniqueidentifier");
+
+                b.HasKey("Id");
+
+                b.HasIndex("ProductId");
+
+                b.HasIndex("SessionKey", "ProductId");
+
+                b.ToTable("Carts");
+            });
+
             modelBuilder.Entity("RetroGames.Models.Category", b =>
             {
                 b.Property<int>("Id")
@@ -323,6 +346,17 @@ namespace RetroGames.Data.Migrations
                     .HasForeignKey("UserId")
                     .OnDelete(DeleteBehavior.Cascade)
                     .IsRequired();
+            });
+
+            modelBuilder.Entity("RetroGames.Models.Cart", b =>
+            {
+                b.HasOne("RetroGames.Models.Product", "Product")
+                    .WithMany()
+                    .HasForeignKey("ProductId")
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .IsRequired();
+
+                b.Navigation("Product");
             });
 
             modelBuilder.Entity("RetroGames.Models.Product", b =>

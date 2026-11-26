@@ -1,0 +1,80 @@
+.arcade-shop {
+    margin-block: clamp(1rem, 4vw, 3rem);
+    padding: clamp(1.15rem, 4vw, 3.5rem);
+    border: 1px solid #353052;
+    border-radius: 1.5rem;
+    color: #f9f6ff;
+    background: radial-gradient(ellipse at top right, #30234e, transparent 55%), #141126;
+}
+
+.shop-header {
+    margin-bottom: clamp(1.5rem, 4vw, 2.75rem);
+}
+
+.shop-header h1 {
+    margin-bottom: .5rem;
+    font-size: clamp(2.2rem, 7vw, 4.5rem);
+    font-weight: 800;
+    letter-spacing: -.055em;
+    line-height: 1;
+}
+
+.shop-header p,
+.shop-empty {
+    color: #d4cde8;
+    margin-bottom: 0;
+}
+
+.category-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 14rem), 1fr));
+    gap: 1rem;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+}
+
+.category-card {
+    --card-accent: #c4a3ff;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: .5rem;
+    min-height: 7rem;
+    height: 100%;
+    padding: 1.1rem;
+    border: 1px solid #554668;
+    border-top: 3px solid var(--card-accent);
+    border-radius: .85rem;
+    color: #f9f6ff;
+    background: #26213b;
+    text-decoration: none;
+    font-size: 1.2rem;
+    font-weight: 700;
+    overflow-wrap: anywhere;
+}
+
+.category-grid li:nth-child(3n + 2) .category-card {
+    --card-accent: #8ee7da;
+}
+
+.category-grid li:nth-child(3n + 3) .category-card {
+    --card-accent: #ffbd85;
+}
+
+.category-card:hover,
+.category-card:focus-visible {
+    color: #fff;
+    background: #382d50;
+    border-color: var(--card-accent);
+}
+
+.category-card:focus-visible {
+    outline: 2px solid var(--card-accent);
+    outline-offset: 3px;
+}
+
+.category-arrow {
+    flex-shrink: 0;
+    color: var(--card-accent);
+}

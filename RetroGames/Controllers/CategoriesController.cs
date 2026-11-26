@@ -1,7 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using RetroGames.Models;
 using RetroGames.Data;
+using RetroGames.Services;
+[Authorize(Roles = StoreRoles.Administrator)]
 public class CategoriesController : Controller
 {
     private readonly ApplicationDbContext _context;

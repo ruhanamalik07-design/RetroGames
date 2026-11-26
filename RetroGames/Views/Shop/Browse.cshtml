@@ -1,0 +1,35 @@
+﻿@model RetroGames.Models.Category
+
+@{
+    ViewData["Title"] = Model.Name;
+    var products = Model.Products?.OrderBy(product => product.Name).ToList() ?? [];
+}
+
+<h1>@Model.Name</h1>
+<p><a asp-action="Index">Back to Shop</a></p>
+
+@if (products.Count == 0)
+{
+    <p>No products in this category yet.</p>
+}
+
+<div class="row">
+    @foreach (var product in products)
+    {
+        <div class="col-md-4 mb-3">
+            <div class="card p-3 h-100">
+                <h2 class="h5">@product.Name</h2>
+                <p>@product.Description</p>
+                @if (!string.IsNullOrEmpty(product.Photo))
+                {
+                    <img src="~/img/product-uploads/@product.Photo" alt="@product.Name" class="img-thumbnail" width="160" />
+                }
+                <p><strong>@product.Price.ToString("C")</strong></p>
+                <form asp-action="AddToCart" method="post" class="mt-auto">
+                    <input type="hidden" name="productId" value="@product.Id" />
+                    <button type="submit" class="btn btn-primary">Add to cart</button>
+                </form>
+            </div>
+        </div>
+    }
+</div>

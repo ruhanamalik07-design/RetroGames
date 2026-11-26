@@ -1,17 +1,32 @@
-﻿@model IEnumerable<RetroGames.Models.Category>
+@model IEnumerable<RetroGames.Models.Category>
 
 @{
     ViewData["Title"] = "Shop";
+    var categories = Model.ToList();
 }
 
-<h1>Shop</h1>
-<ul>
-    @foreach (var category in Model)
+<section class="arcade-shop" aria-labelledby="shop-title">
+    <header class="shop-header">
+        <h1 id="shop-title">Shop games</h1>
+        <p>Browse by category.</p>
+    </header>
+
+    @if (categories.Count == 0)
     {
-        <li>
-            <a asp-controller="Categories" asp-action="Browse" asp-route-categoryName="@category.Name">
-                @category.Name
-            </a>
-        </li>
+        <p class="shop-empty">No categories are available yet.</p>
     }
-</ul>
+    else
+    {
+        <ul class="category-grid">
+            @foreach (var category in categories)
+            {
+                <li>
+                    <a class="category-card" asp-action="Browse" asp-route-id="@category.Id">
+                        <span>@category.Name</span>
+                        <span class="category-arrow" aria-hidden="true">↗</span>
+                    </a>
+                </li>
+            }
+        </ul>
+    }
+</section>

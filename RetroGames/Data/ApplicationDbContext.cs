@@ -1,17 +1,25 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using RetroGames.Models;
 
-namespace RetroGames.Data
+namespace RetroGames.Data;
+
+public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
+    : IdentityDbContext(options)
 {
-    public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : IdentityDbContext(options)
+    public DbSet<Category> Categories { get; set; }
+    public DbSet<Product> Products { get; set; }
+    public DbSet<Cart> Carts { get; set; }
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        public DbSet<Category> Categories { get; set; }
-        public DbSet<Product> Products { get; set; }
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            base.OnModelCreating(modelBuilder);
-            modelBuilder.Entity<Product>().Property(product => product.Price).HasPrecision(18, 2);
-        }
+        base.OnModelCreating(modelBuilder);
+
+        modelBuilder.Entity<Cart>()
+            .HasIndex(row => new { row.SessionKey, row.ProductId });
+
+        modelBuilder.Entity<Product>()
+            .Property(product => product.Price)
+            .HasPrecision(18, 2);
     }
 }

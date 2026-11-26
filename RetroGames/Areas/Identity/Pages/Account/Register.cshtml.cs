@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
+using RetroGames.Services;
 
 namespace RetroGames.Areas.Identity.Pages.Account;
 
@@ -60,6 +61,18 @@ public class RegisterModel(
         if (!result.Succeeded)
         {
             foreach (var error in result.Errors)
+            {
+                ModelState.AddModelError(string.Empty, error.Description);
+            }
+
+            return Page();
+        }
+
+        var customerRole = await userManager.AddToRoleAsync(user, StoreRoles.Customer);
+        if (!customerRole.Succeeded)
+        {
+            await userManager.DeleteAsync(user);
+            foreach (var error in customerRole.Errors)
             {
                 ModelState.AddModelError(string.Empty, error.Description);
             }
