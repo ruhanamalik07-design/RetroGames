@@ -1,0 +1,17 @@
+﻿@model IEnumerable<RetroGames.Models.Category>
+
+@{
+    ViewData["Title"] = "Shop";
+}
+
+<h1>Shop</h1>
+<ul>
+    @foreach (var category in Model)
+    {
+        <li>
+            <a asp-controller="Categories" asp-action="Browse" asp-route-categoryName="@category.Name">
+                @category.Name
+            </a>
+        </li>
+    }
+</ul>

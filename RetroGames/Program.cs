@@ -10,21 +10,9 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(connectionString));
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = false)
-    .AddRoles<IdentityRole>()
+builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
     .AddEntityFrameworkStores<ApplicationDbContext>();
 builder.Services.AddControllersWithViews();
-// Adding Google OAuth
-var googleClientId = builder.Configuration["Authentication:Google:ClientId"];
-var googleClientSecret = builder.Configuration["Authentication:Google:ClientSecret"];
-if (!string.IsNullOrWhiteSpace(googleClientId) && !string.IsNullOrWhiteSpace(googleClientSecret))
-{
-    builder.Services.AddAuthentication().AddGoogle(options =>
-    {
-        options.ClientId = googleClientId;
-        options.ClientSecret = googleClientSecret;
-    });
-}
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -40,9 +28,10 @@ else
 }
 
 app.UseHttpsRedirection();
+app.UseStaticFiles();
 app.UseRouting();
 
-app.UseAuthentication(); // This MUST come before UseAuthorization
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapStaticAssets();

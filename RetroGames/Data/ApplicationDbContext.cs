@@ -11,6 +11,7 @@ namespace RetroGames.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+            modelBuilder.Entity<Product>().Property(product => product.Price).HasPrecision(18, 2);
         }
     }
 }

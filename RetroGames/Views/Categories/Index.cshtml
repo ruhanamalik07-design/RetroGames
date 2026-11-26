@@ -1,10 +1,13 @@
-﻿@model IEnumerable<RetroGames.Models.Category>
+﻿
+@model IEnumerable<RetroGames.Models.Category>
 
 @{
     ViewData["Title"] = "Categories";
 }
 
 <h1>Pick a very cool category to browse our store</h1>
+
+<p><a asp-action="Create">Create New</a></p>
 
 @if (Model != null && Model.Any())
 {
@@ -17,6 +20,9 @@
                    asp-route-categoryName="@category.Name">
                     @category.Name
                 </a>
+                <a asp-action="Details" asp-route-id="@category.Id">Details</a> |
+                <a asp-action="Edit" asp-route-id="@category.Id">Edit</a> |
+                <a asp-action="Delete" asp-route-id="@category.Id">Delete</a>
             </li>
         }
     </ul>

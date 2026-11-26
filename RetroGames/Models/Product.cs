@@ -1,5 +1,4 @@
-﻿
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace RetroGames.Models
 {
@@ -14,8 +13,12 @@ namespace RetroGames.Models
         [StringLength(500)]
         public string? Description { get; set; }
 
+        [Range(typeof(decimal), "0.01", "999999")]
+        [DisplayFormat(DataFormatString = "{0:C}")]
         public decimal Price { get; set; }
+        public string? Photo { get; set; }
 
+        [Display(Name = "Category")]
         public int CategoryId { get; set; }
 
         public Category? Category { get; set; }

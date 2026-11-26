@@ -1,11 +1,7 @@
-﻿
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using RetroGames.Models;
 using RetroGames.Data;
-using Microsoft.AspNetCore.Authorization;
-
-[Authorize(Roles = "Administrator")]
 public class CategoriesController : Controller
 {
     private readonly ApplicationDbContext _context;
@@ -50,7 +46,7 @@ public class CategoriesController : Controller
     // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Create([Bind("Id,Name,Products")] Category category)
+    public async Task<IActionResult> Create([Bind("Id,Name")] Category category)
     {
         if (ModelState.IsValid)
         {
@@ -82,7 +78,7 @@ public class CategoriesController : Controller
     // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Edit(int? id, [Bind("Id,Name,Products")] Category category)
+    public async Task<IActionResult> Edit(int? id, [Bind("Id,Name")] Category category)
     {
         if (id != category.Id)
         {
@@ -143,6 +139,20 @@ public class CategoriesController : Controller
 
         await _context.SaveChangesAsync();
         return RedirectToAction(nameof(Index));
+    }
+
+    public async Task<IActionResult> Browse(string categoryName)
+    {
+        var category = await _context.Categories
+            .FirstOrDefaultAsync(c => c.Name == categoryName);
+
+        if (category is null)
+        {
+            return NotFound();
+        }
+
+        ViewBag.CategoryName = category.Name;
+        return View();
     }
 
     private bool CategoryExists(int? id)

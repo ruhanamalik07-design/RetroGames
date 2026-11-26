@@ -6,6 +6,8 @@
 
 <h1>Our Games</h1>
 
+<p><a asp-action="Create">Create New</a></p>
+
 @if (Model.Any())
 {
     <div class="row">
@@ -16,7 +18,16 @@
                     <h4>@product.Name</h4>
                     <p>@product.Description</p>
                     <p>Category: @product.Category?.Name</p>
-                    <strong>$@product.Price</strong>
+                    @if (!string.IsNullOrEmpty(product.Photo))
+                    {
+                        <img src="~/img/product-uploads/@product.Photo" alt="@product.Name" class="img-thumbnail" width="160" />
+                    }
+                    <strong>@product.Price.ToString("C")</strong>
+                    <div class="mt-2">
+                        <a asp-action="Details" asp-route-id="@product.Id">Details</a> |
+                        <a asp-action="Edit" asp-route-id="@product.Id">Edit</a> |
+                        <a asp-action="Delete" asp-route-id="@product.Id">Delete</a>
+                    </div>
                 </div>
             </div>
         }

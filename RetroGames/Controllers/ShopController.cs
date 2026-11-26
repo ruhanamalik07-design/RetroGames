@@ -1,5 +1,4 @@
-﻿```csharp
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using RetroGames.Data;
 
 namespace RetroGames.Controllers
